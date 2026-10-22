@@ -1,4 +1,5 @@
 const db = require('../db');
+const localStore = require('../db/localStore');
 const { runCollection } = require('../services/collectionRunner.service');
 
 /**
@@ -34,7 +35,8 @@ const listCollectionRuns = async (req, res, next) => {
     const { status, limit = 50, offset = 0 } = req.query;
 
     if (!db.isConnected) {
-      return res.status(200).json({ runs: [], total: 0 });
+      const result = localStore.getCollectionRuns({ status, limit, offset });
+      return res.status(200).json({ runs: result.runs, total: result.total });
     }
 
     let query = `

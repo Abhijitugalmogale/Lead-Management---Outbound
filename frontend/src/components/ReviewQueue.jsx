@@ -3,90 +3,6 @@ import { Search, Filter, CheckCircle2, XCircle, Eye, Zap, MapPin, Building2, Cal
 import { api } from '../services/api';
 import { ReviewModal } from './ReviewModal';
 
-// Sample demonstration projects if DB is empty / offline
-const SAMPLE_DISCOVERED = [
-  {
-    discovered_project_id: 'sample-dp-1',
-    raw_project_name: 'Bhadla Phase IV Solar Park 300 MW',
-    raw_company_name: 'Azure Power India Private Limited',
-    matched_company_legal_name: 'Azure Power India Pvt Ltd',
-    matched_company_id: 'comp-1',
-    technology: 'solar',
-    capacity_mw: 300.0,
-    state: 'Rajasthan',
-    district: 'Jodhpur',
-    expected_cod: '2027-03-31',
-    confidence_score: 0.96,
-    review_status: 'pending_review',
-    source_name: 'SECI Renewable Auction & Allocation Portals',
-    previewScore: {
-      totalScore: 82,
-      band: 'high',
-      breakdown: { capacity_mw: 15, project_confirmed: 15, industry_relevance: 15, geography: 10, service_need: 12, contact_availability: 6, number_of_projects: 5, engagement_90d: 4 }
-    }
-  },
-  {
-    discovered_project_id: 'sample-dp-2',
-    raw_project_name: 'Khavda Renewable Energy Zone Wind-Solar Hybrid 250 MW',
-    raw_company_name: 'Adani Green Energy Twenty Four Ltd',
-    matched_company_legal_name: 'Adani Green Energy Limited',
-    matched_company_id: 'comp-2',
-    technology: 'hybrid',
-    capacity_mw: 250.0,
-    state: 'Gujarat',
-    district: 'Kutch',
-    expected_cod: '2026-12-15',
-    confidence_score: 0.91,
-    review_status: 'pending_review',
-    source_name: 'CEA Monthly Renewable Generation Reports',
-    previewScore: {
-      totalScore: 88,
-      band: 'high',
-      breakdown: { capacity_mw: 15, project_confirmed: 15, industry_relevance: 15, geography: 10, service_need: 15, contact_availability: 10, number_of_projects: 8, engagement_90d: 0 }
-    }
-  },
-  {
-    discovered_project_id: 'sample-dp-3',
-    raw_project_name: 'Rewa Ultra Mega Solar Extension 120 MW',
-    raw_company_name: 'Mahindra Susten Solar Private Limited',
-    matched_company_legal_name: 'Mahindra Susten Pvt Ltd',
-    matched_company_id: 'comp-3',
-    technology: 'solar',
-    capacity_mw: 120.0,
-    state: 'Madhya Pradesh',
-    district: 'Rewa',
-    expected_cod: '2026-09-30',
-    confidence_score: 0.94,
-    review_status: 'pending_review',
-    source_name: 'MNRE Official Tenders & Approvals',
-    previewScore: {
-      totalScore: 74,
-      band: 'medium',
-      breakdown: { capacity_mw: 15, project_confirmed: 10, industry_relevance: 15, geography: 10, service_need: 8, contact_availability: 6, number_of_projects: 5, engagement_90d: 5 }
-    }
-  },
-  {
-    discovered_project_id: 'sample-dp-4',
-    raw_project_name: 'Tuticorin Offshore Wind Pilot Project 75 MW',
-    raw_company_name: 'Suzlon Energy Limited',
-    matched_company_legal_name: 'Suzlon Energy Ltd',
-    matched_company_id: 'comp-4',
-    technology: 'wind',
-    capacity_mw: 75.0,
-    state: 'Tamil Nadu',
-    district: 'Thoothukudi',
-    expected_cod: '2027-06-30',
-    confidence_score: 0.88,
-    review_status: 'pending_review',
-    source_name: 'Renewable Energy Industry RSS News Feeds',
-    previewScore: {
-      totalScore: 68,
-      band: 'medium',
-      breakdown: { capacity_mw: 10, project_confirmed: 10, industry_relevance: 15, geography: 10, service_need: 8, contact_availability: 6, number_of_projects: 5, engagement_90d: 4 }
-    }
-  }
-];
-
 export const ReviewQueue = ({ onStatsUpdate }) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -104,28 +20,14 @@ export const ReviewQueue = ({ onStatsUpdate }) => {
         search: search || undefined,
       });
 
-      if (data && data.data && data.data.length > 0) {
+      if (data && data.data) {
         setProjects(data.data);
       } else {
-        // Fallback to sample projects so user sees active UI demo
-        const filtered = SAMPLE_DISCOVERED.filter((p) => {
-          if (statusFilter !== 'all' && p.review_status !== statusFilter) return false;
-          if (techFilter && p.technology !== techFilter) return false;
-          if (search) {
-            const s = search.toLowerCase();
-            return (
-              p.raw_project_name.toLowerCase().includes(s) ||
-              (p.raw_company_name && p.raw_company_name.toLowerCase().includes(s)) ||
-              (p.state && p.state.toLowerCase().includes(s))
-            );
-          }
-          return true;
-        });
-        setProjects(filtered);
+        setProjects([]);
       }
     } catch (err) {
-      console.warn('Backend offline, using sample projects demonstration.');
-      setProjects(SAMPLE_DISCOVERED);
+      console.error('Failed to load discovered projects:', err.message);
+      setProjects([]);
     } finally {
       setLoading(false);
     }

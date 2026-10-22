@@ -1,4 +1,5 @@
 const db = require('../db');
+const localStore = require('../db/localStore');
 const { calculateLeadScore } = require('../services/scoring.service');
 const { normalizeCompanyName } = require('./company.controller');
 
@@ -20,7 +21,13 @@ const listDiscoveredProjects = async (req, res, next) => {
     const { review_status = 'pending_review', technology, state, search, min_capacity, limit = 50, offset = 0 } = req.query;
 
     if (!db.isConnected) {
-      return res.status(200).json({ data: [], total: 0, message: 'Database offline' });
+      const resList = localStore.getDiscoveredProjects({ review_status, technology, state, search, min_capacity, limit, offset });
+      return res.status(200).json({
+        data: resList.data,
+        total: resList.total,
+        limit: parseInt(limit, 10),
+        offset: parseInt(offset, 10),
+      });
     }
 
     let query = `
@@ -90,7 +97,22 @@ const getDiscoveredProjectById = async (req, res, next) => {
     const { id } = req.params;
 
     if (!db.isConnected) {
-      return res.status(200).json({ project: { discovered_project_id: id, raw_project_name: 'Mock Discovered Project' } });
+      const project = localStore.getDiscoveredProjectById(id);
+      if (!project) {
+        return res.status(404).json({ error: 'Not found', message: 'Discovered project not found' });
+      }
+      const previewScore = calculateLeadScore({
+        companyRole: project.matched_company_role || 'developer',
+        hasProject: true,
+        projectSourceType: project.source_type || 'news_feed',
+        largestCapacityMw: project.capacity_mw || 0,
+        projectCount: 1,
+        hasConfirmedNeed: false,
+        possibleNeedsCount: 1,
+        country: 'India',
+        latestEngagementType: 'none',
+      });
+      return res.status(200).json({ project, previewScore });
     }
 
     const result = await db.query(
@@ -155,7 +177,29 @@ const reviewDiscoveredProject = async (req, res, next) => {
     const action = review_status.toLowerCase();
 
     if (!db.isConnected) {
-      return res.status(200).json({ message: `Project ${action} (Dev mock mode)` });
+      if (action === 'rejected') {
+        const updated = localStore.updateDiscoveredProject(id, {
+          review_status: 'rejected',
+          review_notes: review_notes || 'Rejected during analyst review'
+        });
+        return res.status(200).json({ message: 'Project rejected', project: updated });
+      }
+
+      if (action === 'approved' || action === 'merged') {
+        const proj = localStore.getDiscoveredProjectById(id);
+        if (!proj) return res.status(404).json({ error: 'Not found', message: 'Discovered project not found' });
+
+        localStore.updateDiscoveredProject(id, {
+          review_status: 'approved',
+          review_notes: review_notes || 'Approved during analyst review'
+        });
+        const lead = localStore.convertToLead(id, userId);
+        return res.status(200).json({
+          message: 'Discovered project approved and lead created successfully',
+          lead,
+          project: proj
+        });
+      }
     }
 
     // 1. Fetch discovered project

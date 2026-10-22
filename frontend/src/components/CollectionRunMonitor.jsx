@@ -2,45 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Activity, Play, CheckCircle2, AlertTriangle, Clock, RefreshCw, Layers, ShieldCheck, ChevronRight } from 'lucide-react';
 import { api } from '../services/api';
 
-const SAMPLE_RUNS = [
-  {
-    job_run_id: 'run-001',
-    source_name: 'Renewable Energy Industry RSS News Feeds',
-    source_type: 'news_feed',
-    status: 'succeeded',
-    started_at: new Date(Date.now() - 3600000 * 2).toISOString(),
-    ended_at: new Date(Date.now() - 3600000 * 2 + 12000).toISOString(),
-    records_read: 18,
-    records_created: 5,
-    records_skipped: 13,
-    errors: [],
-  },
-  {
-    job_run_id: 'run-002',
-    source_name: 'CEA Monthly Renewable Generation & Status Reports',
-    source_type: 'official_file',
-    status: 'succeeded',
-    started_at: new Date(Date.now() - 3600000 * 24).toISOString(),
-    ended_at: new Date(Date.now() - 3600000 * 24 + 45000).toISOString(),
-    records_read: 84,
-    records_created: 29,
-    records_skipped: 55,
-    errors: [],
-  },
-  {
-    job_run_id: 'run-003',
-    source_name: 'SECI Renewable Auction & Allocation Portals',
-    source_type: 'official_api',
-    status: 'succeeded',
-    started_at: new Date(Date.now() - 3600000 * 48).toISOString(),
-    ended_at: new Date(Date.now() - 3600000 * 48 + 32000).toISOString(),
-    records_read: 32,
-    records_created: 14,
-    records_skipped: 18,
-    errors: [],
-  },
-];
-
 export const CollectionRunMonitor = () => {
   const [runs, setRuns] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,13 +12,14 @@ export const CollectionRunMonitor = () => {
     setLoading(true);
     try {
       const data = await api.getCollectionRuns();
-      if (data && data.runs && data.runs.length > 0) {
+      if (data && data.runs) {
         setRuns(data.runs);
       } else {
-        setRuns(SAMPLE_RUNS);
+        setRuns([]);
       }
     } catch (err) {
-      setRuns(SAMPLE_RUNS);
+      console.error('Failed to load collection runs:', err.message);
+      setRuns([]);
     } finally {
       setLoading(false);
     }
@@ -74,22 +36,9 @@ export const CollectionRunMonitor = () => {
         file_type: 'rss',
         source_url: 'https://mercomindia.com/feed',
       });
-      fetchRuns();
+      await fetchRuns();
     } catch (err) {
-      // Local fallback simulation
-      const newRun = {
-        job_run_id: `run-${Date.now().toString().slice(-4)}`,
-        source_name: 'On-Demand Renewable Energy RSS Check',
-        source_type: 'news_feed',
-        status: 'succeeded',
-        started_at: new Date().toISOString(),
-        ended_at: new Date(Date.now() + 4000).toISOString(),
-        records_read: 8,
-        records_created: 3,
-        records_skipped: 5,
-        errors: [],
-      };
-      setRuns([newRun, ...runs]);
+      console.error('Failed to trigger collection run:', err.message);
     } finally {
       setTriggering(false);
     }
@@ -166,7 +115,14 @@ export const CollectionRunMonitor = () => {
             </tr>
           </thead>
           <tbody>
-            {runs.map((run) => {
+            {runs.length === 0 ? (
+              <tr>
+                <td colSpan="9" style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>
+                  No collection runs logged yet. Click &quot;Trigger Ingestion&quot; above to run real-time scraping.
+                </td>
+              </tr>
+            ) : (
+              runs.map((run) => {
               const start = new Date(run.started_at);
               const end = run.ended_at ? new Date(run.ended_at) : null;
               const durationSec = end ? Math.max(1, Math.round((end - start) / 1000)) : 'Running';
@@ -206,7 +162,7 @@ export const CollectionRunMonitor = () => {
                   </td>
                 </tr>
               );
-            })}
+            }))}
           </tbody>
         </table>
       </div>

@@ -1,4 +1,5 @@
 const db = require('../db');
+const localStore = require('../db/localStore');
 
 /**
  * GET /api/v1/sources
@@ -7,7 +8,7 @@ const db = require('../db');
 const listSources = async (req, res, next) => {
   try {
     if (!db.isConnected) {
-      return res.status(200).json({ sources: [] });
+      return res.status(200).json({ sources: localStore.getSources() });
     }
 
     const result = await db.query(
@@ -46,7 +47,8 @@ const createSource = async (req, res, next) => {
     }
 
     if (!db.isConnected) {
-      return res.status(201).json({ message: 'Source created (Dev mock mode)', source: { name, source_type } });
+      const source = localStore.createSource({ name, source_type, terms_note, is_permitted });
+      return res.status(201).json({ message: 'Data source registered successfully', source });
     }
 
     const result = await db.query(
