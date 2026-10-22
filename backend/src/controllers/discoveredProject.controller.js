@@ -18,7 +18,12 @@ const generateLeadCode = () => {
  */
 const listDiscoveredProjects = async (req, res, next) => {
   try {
-    const { review_status = 'pending_review', technology, state, search, min_capacity, limit = 50, offset = 0 } = req.query;
+    let { review_status = 'pending_review', technology, state, search, min_capacity, limit = 50, offset = 0 } = req.query;
+
+    if (technology === 'undefined' || !technology) technology = undefined;
+    if (search === 'undefined' || !search) search = undefined;
+    if (state === 'undefined' || !state) state = undefined;
+    if (review_status === 'undefined' || !review_status) review_status = 'pending_review';
 
     if (!db.isConnected) {
       const resList = localStore.getDiscoveredProjects({ review_status, technology, state, search, min_capacity, limit, offset });

@@ -271,10 +271,10 @@
       "district": null,
       "expected_cod": null,
       "confidence_score": 0.85,
-      "review_status": "pending_review",
-      "review_notes": null,
+      "review_status": "converted_to_lead",
+      "review_notes": "Approved during analyst review",
       "reviewed_by": null,
-      "reviewed_at": null,
+      "reviewed_at": "2026-10-22T18:40:12.852Z",
       "previewScore": {
         "totalScore": 40,
         "band": "nurture",
@@ -294,7 +294,8 @@
         "snippet": "Honda Trading enters India's biofuel supply chain through Buyofuel partnership The companies aim to establish a supply framework for industrial consumers and biofuel producers, with quality verification and traceability across categories.",
         "feed_source": "Energy News | Latest Energy Industry Information and Updates: ET EnergyWorld : ETEnergyworld.com"
       },
-      "created_at": "2026-10-22T17:42:42.024Z"
+      "created_at": "2026-10-22T17:42:42.024Z",
+      "converted_lead_id": "lead-1792694412853"
     },
     {
       "discovered_project_id": "dp-1792690962023-997",
@@ -1045,10 +1046,10 @@
       "district": null,
       "expected_cod": null,
       "confidence_score": 0.85,
-      "review_status": "pending_review",
-      "review_notes": null,
+      "review_status": "converted_to_lead",
+      "review_notes": "Approved during analyst review",
       "reviewed_by": null,
-      "reviewed_at": null,
+      "reviewed_at": "2026-10-22T18:39:32.479Z",
       "previewScore": {
         "totalScore": 40,
         "band": "nurture",
@@ -1068,7 +1069,8 @@
         "snippet": "Govt framing policy to enhance farmers' income via adoption of agrivoltaics The Indian government is developing a comprehensive policy aimed at promoting agrivoltaics across the nation. This innovative approach will allow for simultaneous solar energy generation and traditional farming, providing farmers with tangible economic advantages.",
         "feed_source": "Energy News | Latest Energy Industry Information and Updates: ET EnergyWorld : ETEnergyworld.com"
       },
-      "created_at": "2026-10-22T17:42:42.002Z"
+      "created_at": "2026-10-22T17:42:42.002Z",
+      "converted_lead_id": "lead-1792694372480"
     },
     {
       "discovered_project_id": "dp-1792690961687-188",
@@ -2277,6 +2279,150 @@
   ],
   "job_runs": [
     {
+      "job_run_id": "run-1792694442177",
+      "data_source_id": null,
+      "source_name": "Live Feed: https://mercomindia.com/feed",
+      "source_type": "news_feed",
+      "status": "succeeded",
+      "started_at": "2026-10-22T18:40:42.177Z",
+      "ended_at": "2026-10-22T18:40:42.407Z",
+      "records_read": 10,
+      "records_created": 10,
+      "records_updated": 0,
+      "records_skipped": 0,
+      "records_rejected": 0,
+      "sent_for_review": 10,
+      "errors": []
+    },
+    {
+      "job_run_id": "run-1792694440654",
+      "data_source_id": null,
+      "source_name": "Live Feed: https://mercomindia.com/feed",
+      "source_type": "news_feed",
+      "status": "succeeded",
+      "started_at": "2026-10-22T18:40:40.654Z",
+      "ended_at": "2026-10-22T18:40:40.807Z",
+      "records_read": 10,
+      "records_created": 10,
+      "records_updated": 0,
+      "records_skipped": 0,
+      "records_rejected": 0,
+      "sent_for_review": 10,
+      "errors": []
+    },
+    {
+      "job_run_id": "run-1792694440315",
+      "data_source_id": null,
+      "source_name": "Live Feed: https://mercomindia.com/feed",
+      "source_type": "news_feed",
+      "status": "succeeded",
+      "started_at": "2026-10-22T18:40:40.315Z",
+      "ended_at": "2026-10-22T18:40:40.556Z",
+      "records_read": 10,
+      "records_created": 10,
+      "records_updated": 0,
+      "records_skipped": 0,
+      "records_rejected": 0,
+      "sent_for_review": 10,
+      "errors": []
+    },
+    {
+      "job_run_id": "run-1792694439564",
+      "data_source_id": null,
+      "source_name": "Live Feed: https://mercomindia.com/feed",
+      "source_type": "news_feed",
+      "status": "succeeded",
+      "started_at": "2026-10-22T18:40:39.564Z",
+      "ended_at": "2026-10-22T18:40:39.726Z",
+      "records_read": 10,
+      "records_created": 10,
+      "records_updated": 0,
+      "records_skipped": 0,
+      "records_rejected": 0,
+      "sent_for_review": 10,
+      "errors": []
+    },
+    {
+      "job_run_id": "run-1792694438538",
+      "data_source_id": null,
+      "source_name": "Live Feed: https://mercomindia.com/feed",
+      "source_type": "news_feed",
+      "status": "succeeded",
+      "started_at": "2026-10-22T18:40:38.538Z",
+      "ended_at": "2026-10-22T18:40:38.843Z",
+      "records_read": 10,
+      "records_created": 10,
+      "records_updated": 0,
+      "records_skipped": 0,
+      "records_rejected": 0,
+      "sent_for_review": 10,
+      "errors": []
+    },
+    {
+      "job_run_id": "run-1792694417794",
+      "data_source_id": null,
+      "source_name": "Live Feed: https://mercomindia.com/feed",
+      "source_type": "news_feed",
+      "status": "succeeded",
+      "started_at": "2026-10-22T18:40:17.794Z",
+      "ended_at": "2026-10-22T18:40:18.100Z",
+      "records_read": 10,
+      "records_created": 10,
+      "records_updated": 0,
+      "records_skipped": 0,
+      "records_rejected": 0,
+      "sent_for_review": 10,
+      "errors": []
+    },
+    {
+      "job_run_id": "run-1792694397031",
+      "data_source_id": null,
+      "source_name": "Live Feed: https://mercomindia.com/feed",
+      "source_type": "news_feed",
+      "status": "succeeded",
+      "started_at": "2026-10-22T18:39:57.031Z",
+      "ended_at": "2026-10-22T18:39:57.586Z",
+      "records_read": 10,
+      "records_created": 10,
+      "records_updated": 0,
+      "records_skipped": 0,
+      "records_rejected": 0,
+      "sent_for_review": 10,
+      "errors": []
+    },
+    {
+      "job_run_id": "run-1792692660751",
+      "data_source_id": null,
+      "source_name": "Live Feed: https://mercomindia.com/feed",
+      "source_type": "news_feed",
+      "status": "succeeded",
+      "started_at": "2026-10-22T18:11:00.751Z",
+      "ended_at": "2026-10-22T18:11:01.200Z",
+      "records_read": 10,
+      "records_created": 10,
+      "records_updated": 0,
+      "records_skipped": 0,
+      "records_rejected": 0,
+      "sent_for_review": 10,
+      "errors": []
+    },
+    {
+      "job_run_id": "run-1792692467780",
+      "data_source_id": null,
+      "source_name": "Live Feed: https://mercomindia.com/feed",
+      "source_type": "news_feed",
+      "status": "succeeded",
+      "started_at": "2026-10-22T18:07:47.780Z",
+      "ended_at": "2026-10-22T18:07:49.714Z",
+      "records_read": 10,
+      "records_created": 10,
+      "records_updated": 0,
+      "records_skipped": 0,
+      "records_rejected": 0,
+      "sent_for_review": 10,
+      "errors": []
+    },
+    {
       "job_run_id": "run-1792690961690",
       "data_source_id": "src-6",
       "source_name": "The Economic Times - Energy Renewable",
@@ -2341,6 +2487,80 @@
       "errors": []
     }
   ],
-  "leads": [],
-  "audit_logs": []
+  "leads": [
+    {
+      "lead_id": "lead-1792694412853",
+      "lead_code": "LD-2026-957224",
+      "company_name": "Discovered Renewable Developer",
+      "project_name": "Honda Trading enters India's biofuel supply chain through Buyofuel partnership",
+      "technology": "solar",
+      "capacity_mw": null,
+      "state": null,
+      "lead_status": "discovered",
+      "lead_score": 40,
+      "score_band": "nurture",
+      "created_by": "11111111-1111-1111-1111-111111111111",
+      "created_at": "2026-10-22T18:40:12.853Z"
+    },
+    {
+      "lead_id": "lead-1792694372480",
+      "lead_code": "LD-2026-254530",
+      "company_name": "Discovered Renewable Developer",
+      "project_name": "Govt framing policy to enhance farmers' income via adoption of agrivoltaics",
+      "technology": "solar",
+      "capacity_mw": null,
+      "state": null,
+      "lead_status": "discovered",
+      "lead_score": 40,
+      "score_band": "nurture",
+      "created_by": "11111111-1111-1111-1111-111111111111",
+      "created_at": "2026-10-22T18:39:32.480Z"
+    }
+  ],
+  "audit_logs": [
+    {
+      "log_id": "aud-1792694412853",
+      "entity_type": "lead",
+      "entity_id": "lead-1792694412853",
+      "action": "converted_from_discovered_project",
+      "details": {
+        "discovered_project_id": "dp-1792690962024-408",
+        "lead_code": "LD-2026-957224"
+      },
+      "created_at": "2026-10-22T18:40:12.853Z"
+    },
+    {
+      "log_id": "aud-1792694412852",
+      "entity_type": "discovered_project",
+      "entity_id": "dp-1792690962024-408",
+      "action": "status_approved",
+      "details": {
+        "review_status": "approved",
+        "review_notes": "Approved during analyst review"
+      },
+      "created_at": "2026-10-22T18:40:12.852Z"
+    },
+    {
+      "log_id": "aud-1792694372480",
+      "entity_type": "lead",
+      "entity_id": "lead-1792694372480",
+      "action": "converted_from_discovered_project",
+      "details": {
+        "discovered_project_id": "dp-1792690962002-31",
+        "lead_code": "LD-2026-254530"
+      },
+      "created_at": "2026-10-22T18:39:32.480Z"
+    },
+    {
+      "log_id": "aud-1792694372479",
+      "entity_type": "discovered_project",
+      "entity_id": "dp-1792690962002-31",
+      "action": "status_approved",
+      "details": {
+        "review_status": "approved",
+        "review_notes": "Approved during analyst review"
+      },
+      "created_at": "2026-10-22T18:39:32.479Z"
+    }
+  ]
 }

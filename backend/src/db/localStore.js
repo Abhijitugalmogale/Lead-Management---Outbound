@@ -186,25 +186,27 @@ class LocalStore {
   getDiscoveredProjects({ review_status = 'pending_review', technology, state, search, min_capacity, limit = 50, offset = 0 } = {}) {
     let list = [...this.data.discovered_projects];
 
-    if (review_status && review_status !== 'all') {
+    if (review_status && review_status !== 'all' && review_status !== 'undefined') {
       list = list.filter((p) => (p.review_status || '').toLowerCase() === review_status.toLowerCase());
     }
 
-    if (technology) {
+    if (technology && technology !== 'undefined' && technology !== 'all') {
       list = list.filter((p) => (p.technology || '').toLowerCase() === technology.toLowerCase());
     }
 
-    if (state) {
+    if (state && state !== 'undefined') {
       const s = state.toLowerCase().trim();
       list = list.filter((p) => p.state && p.state.toLowerCase().includes(s));
     }
 
-    if (min_capacity) {
+    if (min_capacity && min_capacity !== 'undefined') {
       const min = parseFloat(min_capacity);
-      list = list.filter((p) => p.capacity_mw && p.capacity_mw >= min);
+      if (!isNaN(min)) {
+        list = list.filter((p) => p.capacity_mw && p.capacity_mw >= min);
+      }
     }
 
-    if (search) {
+    if (search && search !== 'undefined' && search.trim().length > 0) {
       const q = search.toLowerCase().trim();
       list = list.filter((p) => {
         return (

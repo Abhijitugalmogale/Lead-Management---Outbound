@@ -22,6 +22,9 @@ export const ReviewQueue = ({ onStatsUpdate }) => {
 
       if (data && data.data) {
         setProjects(data.data);
+        if (onStatsUpdate && typeof data.total === 'number') {
+          onStatsUpdate(data.total);
+        }
       } else {
         setProjects([]);
       }
@@ -117,8 +120,48 @@ export const ReviewQueue = ({ onStatsUpdate }) => {
       ) : projects.length === 0 ? (
         <div className="empty-state glass-panel">
           <CheckCircle2 size={36} className="text-emerald" />
-          <h3>No Discovered Projects Pending</h3>
-          <p>Run a collection job or upload a tender notice PDF/CSV to ingest candidate projects.</p>
+          {statusFilter === 'approved' ? (
+            <>
+              <h3>No Approved Leads Yet</h3>
+              <p>You currently have no projects marked as Approved. Switch to &quot;Pending Review&quot; to review the 48 newly discovered projects waiting for review.</p>
+              <button
+                className="btn btn-primary btn-sm"
+                style={{ marginTop: '14px' }}
+                onClick={() => setStatusFilter('pending_review')}
+              >
+                Switch to Pending Review
+              </button>
+            </>
+          ) : statusFilter === 'rejected' ? (
+            <>
+              <h3>No Rejected Notices</h3>
+              <p>No project notices have been rejected.</p>
+              <button
+                className="btn btn-secondary btn-sm"
+                style={{ marginTop: '14px' }}
+                onClick={() => setStatusFilter('pending_review')}
+              >
+                Back to Pending Review
+              </button>
+            </>
+          ) : search ? (
+            <>
+              <h3>No Projects Match &quot;{search}&quot;</h3>
+              <p>Try searching by state (e.g., Rajasthan, Gujarat), technology, or developer name.</p>
+              <button
+                className="btn btn-secondary btn-sm"
+                style={{ marginTop: '14px' }}
+                onClick={() => setSearch('')}
+              >
+                Clear Search Query
+              </button>
+            </>
+          ) : (
+            <>
+              <h3>No Discovered Projects Pending</h3>
+              <p>Run a collection job or upload a tender notice PDF/CSV to ingest candidate projects.</p>
+            </>
+          )}
         </div>
       ) : (
         <div className="projects-grid">

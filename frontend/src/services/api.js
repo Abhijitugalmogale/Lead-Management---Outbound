@@ -65,6 +65,17 @@ const request = async (endpoint, options = {}) => {
   }
 };
 
+const buildQuery = (params = {}) => {
+  const clean = Object.entries(params).reduce((acc, [k, v]) => {
+    if (v !== undefined && v !== null && v !== '' && v !== 'undefined') {
+      acc[k] = v;
+    }
+    return acc;
+  }, {});
+  const qs = new URLSearchParams(clean).toString();
+  return qs ? `?${qs}` : '';
+};
+
 export const api = {
   // Authentication
   login: (email, password) =>
@@ -75,8 +86,7 @@ export const api = {
 
   // Discovered Projects (Review Queue)
   getDiscoveredProjects: (params = {}) => {
-    const query = new URLSearchParams(params).toString();
-    return request(`/discovered-projects${query ? `?${query}` : ''}`);
+    return request(`/discovered-projects${buildQuery(params)}`);
   },
 
   getDiscoveredProject: (id) => request(`/discovered-projects/${id}`),
@@ -89,8 +99,7 @@ export const api = {
 
   // Collection Runs
   getCollectionRuns: (params = {}) => {
-    const query = new URLSearchParams(params).toString();
-    return request(`/collection-runs${query ? `?${query}` : ''}`);
+    return request(`/collection-runs${buildQuery(params)}`);
   },
 
   getCollectionRun: (id) => request(`/collection-runs/${id}`),

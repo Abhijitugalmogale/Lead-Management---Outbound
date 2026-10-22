@@ -1,23 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Navbar } from './components/Navbar';
 import { ReviewQueue } from './components/ReviewQueue';
 import { DocumentUploader } from './components/DocumentUploader';
 import { CollectionRunMonitor } from './components/CollectionRunMonitor';
 import { SourceRegistry } from './components/SourceRegistry';
+import { api } from './services/api';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('queue');
-  const [pendingCount, setPendingCount] = useState(4);
+  const [pendingCount, setPendingCount] = useState(0);
 
-  const handleStatsUpdate = () => {
-    setPendingCount((prev) => Math.max(0, prev - 1));
+  const refreshCount = async () => {
+    try {
+      const data = await api.getDiscoveredProjects({ review_status: 'pending_review' });
+      if (data && typeof data.total === 'number') {
+        setPendingCount(data.total);
+      }
+    } catch (e) {
+      // ignore
+    }
+  };
+
+  useEffect(() => {
+    refreshCount();
+  }, []);
+
+  const handleStatsUpdate = (newCount) => {
+    if (typeof newCount === 'number') {
+      setPendingCount(newCount);
+    } else {
+      setPendingCount((prev) => Math.max(0, prev - 1));
+    }
   };
 
   const handleUploadSuccess = () => {
-    // Switch to queue after successful upload
     setActiveTab('queue');
-    setPendingCount((prev) => prev + 5);
+    refreshCount();
   };
 
   return (
