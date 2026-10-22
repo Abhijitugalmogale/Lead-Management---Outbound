@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment files
+.env
+*.env
+.env.*
+!.env.example
+
+# Build outputs
+dist/
+*/dist/
+build/
+*/build/
+
+# Uploaded files
+uploads/
+backend/uploads/
+*.pdf.tmp
+
+# Scratch & Temporary
+scratch*
+*.log
+npm-debug.log*
+
+# Ignore specifications, documents and media
+documents/
+*.pdf
+*.docx
+*.jpeg
+*.jpg
+*.png
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
