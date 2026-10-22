@@ -74,7 +74,6 @@
 │   ├── vite.config.js           # Vite configuration with proxy to :5000
 │   └── package.json
 │
-├── documents/                   # SRS, Architecture, Tech Stack, & Database specifications
 ├── run.bat                      # Windows one-click launcher
 └── package.json                 # Root script orchestrator
 ```
